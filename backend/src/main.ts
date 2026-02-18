@@ -1,9 +1,12 @@
 import { buildAdminApp } from './admin/app';
 import { buildPublicApp } from './public/app';
 import config from './config';
+import { runMigrations } from './db/migrate';
 
 const start = async () => {
   try {
+    runMigrations()
+
     const adminApp = await buildAdminApp();
     await adminApp.listen({ port: config.ADMIN_PORT, host: 'localhost' });
     console.log(`Admin server:  http://127.0.0.1:${config.ADMIN_PORT}`);
