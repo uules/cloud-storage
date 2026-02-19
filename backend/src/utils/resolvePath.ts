@@ -1,11 +1,15 @@
-import config from '@config';
 import path from 'path';
+import config from '@config';
+
+const storageRoot = path.resolve(config.STORAGE_PATH);
 
 export function resolveSafePath(userPath: string): string {
-  const normalized = path.normalize(userPath);
-  const resolved = path.resolve(config.STORAGE_PATH, normalized);
+  const resolved = path.resolve(storageRoot, userPath);
 
-  if (!resolved.startsWith(config.STORAGE_PATH)) {
+  if (
+    !resolved.startsWith(storageRoot + path.sep) &&
+    resolved !== storageRoot
+  ) {
     throw new Error('Access denied: path traversal detected');
   }
 
