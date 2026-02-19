@@ -1,12 +1,22 @@
-import Fastify from 'fastify'
-import { healthRoutes } from './routes/health'
-import { filesRoutes } from './routes/files'
+import Fastify from 'fastify';
+import multipart from '@fastify/multipart';
+import config from '@config';
+import { healthRoutes } from './routes/health';
+import { filesRoutes } from './routes/files';
+import { uploadRoutes } from './routes/upload';
 
 export async function buildAdminApp() {
-  const app = Fastify()
+  const app = Fastify({ logger: false });
 
-  await app.register(healthRoutes)
-  await app.register(filesRoutes)
+  await app.register(multipart, {
+    limits: {
+      fileSize: config.STORAGE_LIMIT,
+    },
+  });
 
-  return app
+  await app.register(healthRoutes);
+  await app.register(filesRoutes);
+  await app.register(uploadRoutes);
+
+  return app;
 }
