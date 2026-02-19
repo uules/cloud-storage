@@ -2,10 +2,12 @@ import { buildAdminApp } from 'admin/app';
 import { buildPublicApp } from 'public/app';
 import config from '@config';
 import { runMigrations } from 'database/migrate';
+import { ensureStorage } from '@utils';
 
 const start = async () => {
   try {
     runMigrations();
+    await ensureStorage()
 
     const adminApp = await buildAdminApp();
     await adminApp.listen({ port: config.ADMIN_PORT, host: 'localhost' });
