@@ -1,5 +1,5 @@
+import config from '@config';
 import path from 'path';
-import config from '../config';
 
 export function resolveSafePath(userPath: string): string {
   const normalized = path.normalize(userPath);

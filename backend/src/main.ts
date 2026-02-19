@@ -1,11 +1,11 @@
-import { buildAdminApp } from './admin/app';
-import { buildPublicApp } from './public/app';
-import config from './config';
-import { runMigrations } from './db/migrate';
+import { buildAdminApp } from 'admin/app';
+import { buildPublicApp } from 'public/app';
+import config from '@config';
+import { runMigrations } from 'database/migrate';
 
 const start = async () => {
   try {
-    runMigrations()
+    runMigrations();
 
     const adminApp = await buildAdminApp();
     await adminApp.listen({ port: config.ADMIN_PORT, host: 'localhost' });
